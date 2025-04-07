@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "../components/Image";
 import Link from "next/link";
 import React from "react";
 
@@ -73,10 +73,11 @@ const Leftbar = () => {
         {/* Logo */}
         <Link className="p-2" href="/">
           <Image
-            src="icons/logo.svg"
-            width={24}
-            height={24}
+            path="icons/logo.svg"
+            w={24}
+            h={24}
             alt="twitter-logo"
+            tr={false}
           />
         </Link>
         {/* Menu list */}
@@ -88,9 +89,10 @@ const Leftbar = () => {
               className="flex items-center gap-4 hover:bg-[#181818] rounded-full p-2 transition-all duration-200 ease-in-out"
             >
               <Image
-                src={`icons/${item.icon}`}
-                width={24}
-                height={24}
+                path={`icons/${item.icon}`}
+                w={24}
+                h={24}
+                tr={false}
                 alt={item.name}
               />
               <span className="hidden xxl:inline">{item.name}</span>
@@ -102,7 +104,7 @@ const Leftbar = () => {
             href="/"
             className="xxl:hidden bg-white text-black rounded-full w-12 h-12 flex items-center justify-center"
           >
-            <Image src="icons/post.svg" width={24} height={24} alt="post" />
+            <Image path="icons/post.svg" w={24} h={24} tr={false} alt="post" />
           </Link>
           <Link
             href="/"
@@ -118,8 +120,10 @@ const Leftbar = () => {
           <div className=" w-10 h-10 relative rounded-full overflow-hidden">
             <Image
               className="bg-cover"
-              src="/general/avatar.jpg"
-              fill
+              path="/general/avatar.jpg"
+              w={100}
+              h={100}
+              tr={true}
               alt="sina koushki"
             />
           </div>

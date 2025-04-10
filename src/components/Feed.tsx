@@ -4,7 +4,7 @@ import Post from "./Post"
 
 const Feed = () => {
   return (
-    <div className='overflow-scroll'>
+    <div className='overflow-scroll h-screen'>
       <Post />
       <Post />
       <Post />

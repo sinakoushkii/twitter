@@ -27,7 +27,7 @@ const Post = () => {
           {/* Avatar */}
           <div className="relative w-10 h-10 rounded-full overflow-hidden">
             <Image
-              path="general/avatar.png"
+              path="general/avatar.jpg"
               alt="post"
               w={100}
               h={100}

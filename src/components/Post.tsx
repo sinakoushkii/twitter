@@ -2,8 +2,33 @@ import Image from "./Image";
 import React from "react";
 import PostInfo from "./PostInfo";
 import PostInteractions from "./PostInteractions";
+import { imageKit } from "@/utils";
 
-const Post = () => {
+type FileDetailsResponse = {
+  width: number;
+  height: number;
+  filePath: string;
+  fileType: string;
+  url: string;
+  customMetadata?: { sensitive: boolean };
+};
+
+const Post = async () => {
+  
+  const getFileDetails = async (
+    fileId: string
+  ): Promise<FileDetailsResponse> => {
+    return new Promise((resolve, reject) => {
+      imageKit.getFileDetails(fileId, function (error, result) {
+        if (error) console.log(error);
+        else console.log(result);
+      });
+    });
+  };
+
+  const fileDetail = await getFileDetails("67fbfaff432c476416c5d549");
+  console.log(fileDetail);
+
   return (
     <div>
       <div className="p-4 border-y-[1px] border-borderGray">

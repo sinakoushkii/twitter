@@ -28,7 +28,7 @@ const Share = () => {
   };
 
   return (
-    <form className="flex p-4 gap-4" action={shareAction}>
+    <form className="flex p-4 gap-4" action={(formData)=>shareAction(formData,imageSetting)}>
       {/* Aavtar */}
       <div className="relative w-10 h-10 rounded-full overflow-hidden">
         <Image

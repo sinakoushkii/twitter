@@ -2,10 +2,24 @@
 
 import React, { useState } from "react";
 import Image from "./Image";
+import NextImage from "next/image";
 import { shareAction } from "@/actions";
+import ImageEditor from "./ImageEditor";
+
+export type ImageSettingType = {
+  type: "original" | "wide" | "square";
+  sensitive: boolean;
+};
 
 const Share = () => {
   const [media, setMedia] = useState<File | null>(null);
+  const [isEditorOpen, setIsEditorOpen] = useState<boolean>(false);
+  const [imageSetting, setImageSetting] = useState<ImageSettingType>({
+    type: "original",
+    sensitive: false,
+  });
+
+  const previewImage = media ? URL.createObjectURL(media) : null;
 
   const handleMediaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -33,6 +47,29 @@ const Share = () => {
           name="desc"
           placeholder="Whats happening ?!"
         />
+        {/* Image preview */}
+        {previewImage && (
+          <div className="relative rounded-xl overflow-hidden">
+            <NextImage
+              src={previewImage}
+              width={600}
+              height={600}
+              alt="image-preview"
+            />
+            <div onClick={()=>setIsEditorOpen(true)} className="absolute top-2 left-2 font-bold text-sm text-white bg-black opacity-50 cursor-pointer py-1 px-4 rounded-full">
+              Edit
+            </div>
+          </div>
+        )}
+        {/* Image Editor */}
+        {previewImage && isEditorOpen && (
+          <ImageEditor
+            previewUrl={previewImage}
+            setting={imageSetting}
+            setSetting={setImageSetting}
+            onClose={() => setIsEditorOpen(false)}
+          />
+        )}
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div className="flex flex-wrap gap-4">
             <input
@@ -93,7 +130,10 @@ const Share = () => {
               alt="post-icon"
             />
           </div>
-          <button type="submit" className="bg-white text-black font-bold rounded-full py-2 px-4">
+          <button
+            type="submit"
+            className="bg-white text-black font-bold rounded-full py-2 px-4"
+          >
             Post
           </button>
         </div>

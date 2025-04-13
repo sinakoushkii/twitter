@@ -53,7 +53,7 @@ const ImageEditor = ({
             <h1 className="text-xl font-bold">Media Settings</h1>
           </div>
           {/* Save Button */}
-          <button className="py-2 px-4 rounded-full bg-white text-black font-bold">
+          <button onClick={onClose} className="py-2 px-4 rounded-full bg-white text-black font-bold">
             Save
           </button>
         </div>

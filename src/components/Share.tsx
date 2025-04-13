@@ -55,8 +55,20 @@ const Share = () => {
               width={600}
               height={600}
               alt="image-preview"
+              className={`w-full ${
+                imageSetting.type === "original"
+                  ? "h-full object-contain"
+                  : imageSetting.type === "square"
+                  ? "aspect-square object-cover"
+                  : imageSetting.type === "wide"
+                  ? "aspect-video object-cover"
+                  : ""
+              } ${imageSetting.sensitive ? "blur-md" : ""}`}
             />
-            <div onClick={()=>setIsEditorOpen(true)} className="absolute top-2 left-2 font-bold text-sm text-white bg-black opacity-50 cursor-pointer py-1 px-4 rounded-full">
+            <div
+              onClick={() => setIsEditorOpen(true)}
+              className="absolute top-2 left-2 font-bold text-sm text-white bg-black opacity-50 cursor-pointer py-1 px-4 rounded-full"
+            >
               Edit
             </div>
           </div>

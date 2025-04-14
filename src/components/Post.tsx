@@ -14,20 +14,19 @@ type FileDetailsResponse = {
 };
 
 const Post = async () => {
-  
   const getFileDetails = async (
     fileId: string
   ): Promise<FileDetailsResponse> => {
     return new Promise((resolve, reject) => {
       imageKit.getFileDetails(fileId, function (error, result) {
-        if (error) console.log(error);
-        else console.log(result);
+        if (error) reject(error);
+        else resolve(result as FileDetailsResponse);
       });
     });
   };
 
   const fileDetail = await getFileDetails("67fbfaff432c476416c5d549");
-  console.log(fileDetail);
+
 
   return (
     <div>
@@ -80,11 +79,21 @@ const Post = async () => {
                 erat imperdiet sed euismod nisi porta lorem mollis Morbi
                 tristique senectus et netus{" "}
               </p>
-              <Image
+              {/* <Image
                 className=""
                 path="general/post.jpeg"
                 w={600}
                 h={600}
+                alt="post"
+                tr={false}
+              /> */}
+              <Image
+                className={`${
+                  fileDetail.customMetadata?.sensitive ? "blur-md" : ""
+                }`}
+                path={fileDetail.filePath}
+                w={fileDetail.width}
+                h={fileDetail.height}
                 alt="post"
                 tr={false}
               />

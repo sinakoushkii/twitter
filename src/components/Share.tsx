@@ -19,6 +19,7 @@ const Share = () => {
     sensitive: false,
   });
 
+
   const previewImage = media ? URL.createObjectURL(media) : null;
 
   const handleMediaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,7 +29,10 @@ const Share = () => {
   };
 
   return (
-    <form className="flex p-4 gap-4" action={(formData)=>shareAction(formData,imageSetting)}>
+    <form
+      className="flex p-4 gap-4"
+      action={(formData) => shareAction(formData, imageSetting)}
+    >
       {/* Aavtar */}
       <div className="relative w-10 h-10 rounded-full overflow-hidden">
         <Image
@@ -48,7 +52,7 @@ const Share = () => {
           placeholder="Whats happening ?!"
         />
         {/* Image preview */}
-        {previewImage && (
+        {media?.type.includes("image") && previewImage && (
           <div className="relative rounded-xl overflow-hidden">
             <NextImage
               src={previewImage}
@@ -73,6 +77,16 @@ const Share = () => {
             </div>
           </div>
         )}
+        {/* Video preview */}
+        {media?.type.includes("video") && previewImage && (
+          <div className="relative">
+            <video src={previewImage} controls />
+            <div onClick={()=>setMedia(null)} className="absolute top-2 right-2 bg-black bg-opacity-50 hover:bg-opacity-100 text-white py-1 px-3 rounded-full text-sm font-bold cursor-pointer">
+              X
+            </div>
+          </div>
+        )}
+
         {/* Image Editor */}
         {previewImage && isEditorOpen && (
           <ImageEditor
@@ -89,6 +103,7 @@ const Share = () => {
               id="file"
               name="file"
               type="file"
+              accept="image/*,video/*"
               onChange={handleMediaChange}
             />
             <label htmlFor="file">

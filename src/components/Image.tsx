@@ -20,6 +20,7 @@ const Image = ({ path, w, h, alt, tr, className }: ImageProps) => {
       className={className}
       urlEndpoint={urlEndpoint}
       path={path}
+      lqip={{active:true, quality: 20}}
       {...(tr
         ? { transformation: [{ width: `${w}`, height: `${h}` }] }
         : { width: w, height: h })}

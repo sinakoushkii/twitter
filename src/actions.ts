@@ -3,7 +3,6 @@
 import { ImageSettingType } from "./components/Share";
 import { imageKit } from "./utils";
 
-
 export const shareAction = async (
   formData: FormData,
   imageSettings: ImageSettingType
@@ -31,18 +30,18 @@ export const shareAction = async (
       file: buffer,
       fileName: file.name,
       folder: "/posts",
-      transformation: {
+      ...(file.type.includes("image") && {
         pre: transformation,
-      },
-      customMetadata:{
+      }),
+      customMetadata: {
         sensitive: imageSettings.sensitive,
-      }
+      },
     },
     function (error, result) {
       if (error) {
         console.log(error);
       } else {
-        console.log("result");
+        console.log(result);
       }
     }
   );

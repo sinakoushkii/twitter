@@ -8,7 +8,7 @@ type ImageProps = {
   w?: number;
   h?: number;
   alt: string;
-  tr: boolean;
+  tr?: boolean;
   className?: string;
 };
 

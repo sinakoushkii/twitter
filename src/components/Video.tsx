@@ -9,13 +9,15 @@ type VideoType = {
 
 const Video = ({ className, path }: VideoType) => {
   const urlEndpoint = process.env.NEXT_PUBLIC_URL_ENDPOINT;
-
   return (
     <IKVideo
       className={className}
       urlEndpoint={urlEndpoint}
       path={path}
-      transformation={[{ width: "1920", height: "1080", quality: 90 }]}
+      transformation={[
+        { width: "1920", height: "1080", quality: 90 },
+        { raw: "l-text:Frontend,fs-30,co-red,x-10,y-10" }
+      ]}
     />
   );
 };

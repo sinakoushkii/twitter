@@ -3,6 +3,7 @@ import React from "react";
 import PostInfo from "./PostInfo";
 import PostInteractions from "./PostInteractions";
 import { imageKit } from "@/utils";
+import Video from "./Video";
 
 type FileDetailsResponse = {
   width: number;
@@ -26,7 +27,6 @@ const Post = async () => {
   };
 
   const fileDetail = await getFileDetails("67fbfaff432c476416c5d549");
-
 
   return (
     <div>
@@ -79,15 +79,24 @@ const Post = async () => {
                 erat imperdiet sed euismod nisi porta lorem mollis Morbi
                 tristique senectus et netus{" "}
               </p>
+              {fileDetail && fileDetail.fileType === "image" ? (
+                <Image
+                  className=""
+                  path="general/post.jpeg"
+                  w={600}
+                  h={600}
+                  alt="post"
+                  tr={false}
+                />
+              ) : (
+                <Video
+                  className={`${
+                    fileDetail.customMetadata?.sensitive ? "blur-md" : ""
+                  }`}
+                  path={fileDetail.filePath}
+                />
+              )}
               {/* <Image
-                className=""
-                path="general/post.jpeg"
-                w={600}
-                h={600}
-                alt="post"
-                tr={false}
-              /> */}
-              <Image
                 className={`${
                   fileDetail.customMetadata?.sensitive ? "blur-md" : ""
                 }`}
@@ -96,7 +105,7 @@ const Post = async () => {
                 h={fileDetail.height}
                 alt="post"
                 tr={false}
-              />
+              /> */}
               <PostInteractions />
             </div>
           </div>

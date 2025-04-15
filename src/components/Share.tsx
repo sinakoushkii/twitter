@@ -1,10 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useActionState, useEffect, useState } from "react";
 import Image from "./Image";
 import NextImage from "next/image";
 import { shareAction } from "@/actions";
 import ImageEditor from "./ImageEditor";
+import FormSubmitButton from "./FormSubmitButton";
+import { useFormState } from "react-dom";
 
 export type ImageSettingType = {
   type: "original" | "wide" | "square";
@@ -18,8 +20,20 @@ const Share = () => {
     type: "original",
     sensitive: false,
   });
+  const [state, formAction, pending] = useActionState(
+    async (_prev: any, formData: FormData) => {
+      await shareAction(formData, imageSetting);
+      return {}; // or return any state you want
+    },
+    {}
+  );
 
-
+  // 🔄 Clear media after successful post
+  useEffect(() => {
+    if (!pending && media) {
+      setMedia(null);
+    }
+  }, [pending]);
   const previewImage = media ? URL.createObjectURL(media) : null;
 
   const handleMediaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,7 +45,8 @@ const Share = () => {
   return (
     <form
       className="flex p-4 gap-4"
-      action={(formData) => shareAction(formData, imageSetting)}
+      // action={(formData) => shareAction(formData, imageSetting)}
+      action={formAction}
     >
       {/* Aavtar */}
       <div className="relative w-10 h-10 rounded-full overflow-hidden">
@@ -71,9 +86,15 @@ const Share = () => {
             />
             <div
               onClick={() => setIsEditorOpen(true)}
-              className="absolute top-2 left-2 font-bold text-sm text-white bg-black opacity-50 cursor-pointer py-1 px-4 rounded-full"
+              className="absolute top-2 left-2 font-bold text-sm text-white bg-black bg-opacity-50 hover:bg-opacity-100 cursor-pointer py-1 px-4 rounded-full"
             >
               Edit
+            </div>
+            <div
+              onClick={() => setMedia(null)}
+              className="absolute top-2 right-2 bg-black bg-opacity-50 hover:bg-opacity-100 text-white py-1 px-3 rounded-full text-sm font-bold cursor-pointer"
+            >
+              X
             </div>
           </div>
         )}
@@ -81,7 +102,10 @@ const Share = () => {
         {media?.type.includes("video") && previewImage && (
           <div className="relative">
             <video src={previewImage} controls />
-            <div onClick={()=>setMedia(null)} className="absolute top-2 right-2 bg-black bg-opacity-50 hover:bg-opacity-100 text-white py-1 px-3 rounded-full text-sm font-bold cursor-pointer">
+            <div
+              onClick={() => setMedia(null)}
+              className="absolute top-2 right-2 bg-black bg-opacity-50 hover:bg-opacity-100 text-white py-1 px-3 rounded-full text-sm font-bold cursor-pointer"
+            >
               X
             </div>
           </div>
@@ -157,12 +181,10 @@ const Share = () => {
               alt="post-icon"
             />
           </div>
-          <button
-            type="submit"
+          <FormSubmitButton
             className="bg-white text-black font-bold rounded-full py-2 px-4"
-          >
-            Post
-          </button>
+            text="Post"
+          />
         </div>
       </div>
     </form>
